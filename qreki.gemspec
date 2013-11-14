@@ -6,11 +6,11 @@ require 'qreki/version'
 Gem::Specification.new do |spec|
   spec.name          = "qreki"
   spec.version       = Qreki::VERSION
-  spec.authors       = ["TODO: Write your name"]
-  spec.email         = ["TODO: Write your email address"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.authors       = ["Masaki Ozawa"]
+  spec.email         = ["ozamasa123@gmail.com"]
+  spec.description   = %q{qreki}
+  spec.summary       = %q{qreki}
+  spec.homepage      = "https://github.com/ozamasa/qreki"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
