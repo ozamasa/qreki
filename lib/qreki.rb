@@ -8,6 +8,10 @@ require "qreki/version"
 
 module Qreki
 
+  class Qreki
+    attr_accessor :year, :uruu, :month, :day, :rokuyou, :sekki
+  end
+
   $k = Math::PI / 180.0  # Pi
   $tz = - (9.0 / 24.0)   # タイムゾーンオフセット
   $rm_sun0 = 0           # 太陽黄経
@@ -17,78 +21,27 @@ module Qreki
   #
   # 引数　 .... 日付
   # 戻り値
-  #    q[0]  : 旧暦年
-  #    q[1]  : 平月／閏月 flag .... 平月:false 閏月:true
-  #    q[2]  : 旧暦月
-  #    q[3]  : 旧暦日
+  #    q.year  : 旧暦年
+  #    q.uruu  : 平月／閏月 flag .... 平月:false 閏月:true
+  #    q.month  : 旧暦月
+  #    q.day : 旧暦日
+  #    q.rokuyou : 六曜
+  #    q.sekki : 二十四節気
   #=========================================================================
-  def self.get(year, mon, day)
-    return get_from_date(Date.new(year, mon, day))
+  def self.calc(year, month, day)
+    return calc_from_date(Date.new(year, month, day))
   end
 
-  def self.get_from_date(tm)
-    return calc_kyureki(tm.year, tm.month, tm.day)
-  end
-
-
-  #=========================================================================
-  # 六曜算出関数
-  #
-  # 引数　 .... 計算対象となる年月日　$year $mon $day
-  # 戻り値 .... 六曜  (大安 赤口 先勝 友引 先負 仏滅)
-  #=========================================================================
-  def self.rokuyou(year, mon, day)
-    rokuyou = %w(大安 赤口 先勝 友引 先負 仏滅)
-
-    q_yaer, uruu, q_mon, q_day = calc_kyureki(year, mon, day)
-
-    return rokuyou[ (q_mon + q_day) % 6 ]
-  end
-
-  #=========================================================================
-  # 今日が２４節気かどうか調べる
-  #
-  # 引数　 .... 計算対象となる年月日　$year $mon $day
-  # 戻り値 .... ２４節気の名称
-  #=========================================================================
-  def self.sekki(year, mon, day)
-    #-----------------------------------------------------------------------
-    # ２４節気の定義
-    #-----------------------------------------------------------------------
-    sekki24 = %w(春分 清明 穀雨 立夏 小満 芒種 夏至 小暑 大暑 立秋 処暑 白露
-                 秋分 寒露 霜降 立冬 小雪 大雪 冬至 小寒 大寒 立春 雨水 啓蟄)
-
-    tm = ymdt2jd(year, mon, day, 0, 0, 0)
-
-    #-----------------------------------------------------------------------
-    # 時刻引数を分解する
-    #-----------------------------------------------------------------------
-    tm1  = tm.to_i
-    tm2  = tm - tm1
-    tm2 -= 9.0 / 24.0
-    t = (tm2 + 0.5) / 36525.0 + (tm1 - 2451545.0) / 36525.0
-
-    #今日の太陽の黄経
-    rm_sun_today = longitude_sun(t)
-
-    tm += 1
-    tm1  = tm.to_i
-    tm2  = tm - tm1
-    tm2 -= 9.0 / 24.0
-    t = (tm2 + 0.5) / 36525.0 + (tm1 - 2451545.0) / 36525.0
-
-    # 明日の太陽の黄経
-    rm_sun_tommorow = longitude_sun(t)
-
-    #
-    rm_sun_today0    = 15.0 * (rm_sun_today    / 15.0).to_i
-    rm_sun_tommorow0 = 15.0 * (rm_sun_tommorow / 15.0).to_i
-
-    if rm_sun_today0 != rm_sun_tommorow0
-      return sekki24[rm_sun_tommorow0 / 15]
-    else
-      return ''
-    end
+  def self.calc_from_date(tm)
+    array = calc_kyureki(tm.year, tm.month, tm.day)
+    qreki = Qreki.new
+    qreki.year    = array[0]
+    qreki.uruu    = array[1]
+    qreki.month   = array[2]
+    qreki.day     = array[3]
+    qreki.rokuyou = rokuyou(tm.year, tm.month, tm.day)
+    qreki.sekki   = sekki(tm.year, tm.month, tm.day)
+    return qreki
   end
 
   # =========================================================================
@@ -624,5 +577,65 @@ module Qreki
     time[5] = (  tm - 3600.0 * time[3] - 60 * time[4] ).to_i
 
     return time
+  end
+
+  #=========================================================================
+  # 六曜算出関数
+  #
+  # 引数　 .... 計算対象となる年月日　$year $mon $day
+  # 戻り値 .... 六曜  (大安 赤口 先勝 友引 先負 仏滅)
+  #=========================================================================
+  def self.rokuyou(year, mon, day)
+    rokuyou = %w(大安 赤口 先勝 友引 先負 仏滅)
+
+    q_yaer, uruu, q_mon, q_day = calc_kyureki(year, mon, day)
+
+    return rokuyou[ (q_mon + q_day) % 6 ]
+  end
+
+  #=========================================================================
+  # 今日が２４節気かどうか調べる
+  #
+  # 引数　 .... 計算対象となる年月日　$year $mon $day
+  # 戻り値 .... ２４節気の名称
+  #=========================================================================
+  def self.sekki(year, mon, day)
+    #-----------------------------------------------------------------------
+    # ２４節気の定義
+    #-----------------------------------------------------------------------
+    sekki24 = %w(春分 清明 穀雨 立夏 小満 芒種 夏至 小暑 大暑 立秋 処暑 白露
+                 秋分 寒露 霜降 立冬 小雪 大雪 冬至 小寒 大寒 立春 雨水 啓蟄)
+
+    tm = ymdt2jd(year, mon, day, 0, 0, 0)
+
+    #-----------------------------------------------------------------------
+    # 時刻引数を分解する
+    #-----------------------------------------------------------------------
+    tm1  = tm.to_i
+    tm2  = tm - tm1
+    tm2 -= 9.0 / 24.0
+    t = (tm2 + 0.5) / 36525.0 + (tm1 - 2451545.0) / 36525.0
+
+    #今日の太陽の黄経
+    rm_sun_today = longitude_sun(t)
+
+    tm += 1
+    tm1  = tm.to_i
+    tm2  = tm - tm1
+    tm2 -= 9.0 / 24.0
+    t = (tm2 + 0.5) / 36525.0 + (tm1 - 2451545.0) / 36525.0
+
+    # 明日の太陽の黄経
+    rm_sun_tommorow = longitude_sun(t)
+
+    #
+    rm_sun_today0    = 15.0 * (rm_sun_today    / 15.0).to_i
+    rm_sun_tommorow0 = 15.0 * (rm_sun_tommorow / 15.0).to_i
+
+    if rm_sun_today0 != rm_sun_tommorow0
+      return sekki24[rm_sun_tommorow0 / 15]
+    else
+      return ''
+    end
   end
 end

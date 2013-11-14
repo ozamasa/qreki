@@ -1,6 +1,6 @@
 # Qreki
 
-TODO: Write a gem description
+This is the gem which calculates the old calendar "qreki".
 
 ## Installation
 
@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    >> qreki = Qreki.calc(2013,11,7)
+    >> qreki.year    # 2013
+    >> qreki.uruu    # false
+    >> qreki.month   # 10
+    >> qreki.day     # 5
+    >> qreki.rokuyou # "友引"
+    >> qreki.sekki   # "立冬"
 
 ## Contributing
 

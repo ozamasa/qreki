@@ -1,4 +1,11 @@
-Copyright (c) 2013 TODO: Write your name
+Copyright (c) 1993,1994 H.Takano
+
+QRSAMP
+  Coded by H.Takano (C)1993,1994
+  http://www.vector.co.jp/soft/dos/personal/se016093.html
+
+
+Copyright (c) 2013 Masaki Ozawa
 
 MIT License
 
