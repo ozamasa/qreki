@@ -8,7 +8,7 @@ require "qreki/version"
 
 module Qreki
 
-  class Qreki
+  class Qrk
     attr_accessor :year, :uruu, :month, :day, :rokuyou, :sekki
   end
 
@@ -34,7 +34,7 @@ module Qreki
 
   def self.calc_from_date(tm)
     array = calc_kyureki(tm.year, tm.month, tm.day)
-    qreki = Qreki.new
+    qreki = Qrk.new
     qreki.year    = array[0]
     qreki.uruu    = array[1]
     qreki.month   = array[2]
