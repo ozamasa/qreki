@@ -30,7 +30,7 @@ module Qreki
   #    q.sekki : 二十四節気
   #=========================================================================
   def self.calc(year, month, day)
-    return calc_from_date(Date.new(year, month, day))
+    calc_from_date(Date.new(year, month, day))
   end
 
   def self.calc_from_date(tm)
@@ -42,7 +42,7 @@ module Qreki
     qreki.day     = array[3]
     qreki.rokuyou = rokuyou(tm.year, tm.month, tm.day)
     qreki.sekki   = sekki(tm.year, tm.month, tm.day)
-    return qreki
+    qreki
   end
 
   # =========================================================================
@@ -189,7 +189,7 @@ module Qreki
       kyureki[0] -= 1
     end
 
-    return [kyureki[0], kyureki[1], kyureki[2], kyureki[3]]
+    [kyureki[0], kyureki[1], kyureki[2], kyureki[3]]
   end
 
   # =========================================================================
@@ -271,7 +271,7 @@ module Qreki
     #  戻り値の作成
     #    時刻引数を合成し、戻り値（JSTユリウス日）とする
     # -----------------------------------------------------------------------
-    return tm2 + tm1 - $tz
+    tm2 + tm1 - $tz
   end
 
   # =========================================================================
@@ -381,7 +381,7 @@ module Qreki
     #  戻り値の作成
     #    時刻引数を合成し、戻り値（ユリウス日）とする
     # -----------------------------------------------------------------------
-    return tm2 + tm1 - $tz
+    tm2 + tm1 - $tz
   end
 
   # =========================================================================
@@ -426,7 +426,7 @@ module Qreki
     ang = normalization_angle( ang + 280.4659 )
     th  = normalization_angle( th + ang )
 
-    return th
+    th
   end
 
   # =========================================================================
@@ -505,7 +505,7 @@ module Qreki
     ang = normalization_angle( ang + 218.3162 )
     th  = normalization_angle( th + ang )
 
-    return th
+    th
   end
 
   #=========================================================================
@@ -534,7 +534,7 @@ module Qreki
 
     jd += t
 
-    return jd
+    jd
   end
 
   #=========================================================================
@@ -577,7 +577,7 @@ module Qreki
     time[4] = ( (tm - 3600.0 * time[3] ) / 60.0 ).to_i
     time[5] = (  tm - 3600.0 * time[3] - 60 * time[4] ).to_i
 
-    return time
+    time
   end
 
   #=========================================================================
@@ -591,7 +591,7 @@ module Qreki
 
     q_yaer, uruu, q_mon, q_day = calc_kyureki(year, mon, day)
 
-    return rokuyou[ (q_mon + q_day) % 6 ]
+    rokuyou[ (q_mon + q_day) % 6 ]
   end
 
   #=========================================================================
