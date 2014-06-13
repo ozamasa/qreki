@@ -9,6 +9,10 @@ require "date"
 
 module Qreki
 
+  class Srk
+    attr_accessor :year, :month, :day
+  end
+
   class Qrk
     attr_accessor :year, :uruu, :month, :day, :rokuyou, :sekki
   end
@@ -638,5 +642,25 @@ module Qreki
     else
       return ''
     end
+  end
+
+  def self.shunbun(year)
+    day = (20.8431 + 0.242194 * ( year - 1980 ) - ( year - 1980 ) / 4).to_i
+
+    sreki = Srk.new
+    sreki.year  = year
+    sreki.month = 3
+    sreki.day   = day
+    sreki
+  end
+
+  def self.shuubun(year)
+    day = (23.2488 + 0.242194 * ( year - 1980 ) - ( year - 1980 ) / 4).to_i
+
+    sreki = Srk.new
+    sreki.year  = year
+    sreki.month = 9
+    sreki.day   = day
+    sreki
   end
 end

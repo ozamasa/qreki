@@ -18,6 +18,10 @@ Or install it yourself as:
 
 ## Usage
 
+    >> require 'qreki'
+
+Calc qreki "旧暦" as:
+
     >> qreki = Qreki.calc(2013,11,7)
     >> qreki.year    # 2013
     >> qreki.uruu    # false
@@ -25,6 +29,20 @@ Or install it yourself as:
     >> qreki.day     # 5
     >> qreki.rokuyou # "友引"
     >> qreki.sekki   # "立冬"
+
+Calc shunbun "春分の日" as:
+
+    >> sreki = Qreki.shunbun(2014)
+    >> sreki.year    # 2014
+    >> sreki.month   # 3
+    >> sreki.day     # 21
+
+Calc shuubun "秋分の日" as:
+
+    >> sreki = Qreki.shuubun(2014)
+    >> sreki.year    # 2014
+    >> sreki.month   # 9
+    >> sreki.day     # 23
 
 ## Contributing
 

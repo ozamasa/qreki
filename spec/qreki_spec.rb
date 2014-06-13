@@ -48,4 +48,34 @@ describe Qreki do
     expect(@q.rokuyou).to eql "友引"
     expect(@q.sekki).to   eql "立冬"
   end
+
+
+  it "should shunbun eql 2014 => 2014,3,21" do
+    @q = Qreki.shunbun(2014)  # => 2014,3,21
+    expect(@q.year).to    eql 2014
+    expect(@q.month).to   eql 3
+    expect(@q.day).to     eql 21
+  end
+
+  it "should shunbun eql 2030 => 2030,3,20" do
+    @q = Qreki.shunbun(2030)  # => 2030,3,20
+    expect(@q.year).to    eql 2030
+    expect(@q.month).to   eql 3
+    expect(@q.day).to     eql 20
+  end
+
+
+  it "should shuubun eql 2014 => 2014,9,23" do
+    @q = Qreki.shuubun(2014)  # => 2014,9,23
+    expect(@q.year).to    eql 2014
+    expect(@q.month).to   eql 9
+    expect(@q.day).to     eql 23
+  end
+
+  it "should shuubun eql 2030 => 2030,9,23" do
+    @q = Qreki.shuubun(2030)  # => 2030,9,23
+    expect(@q.year).to    eql 2030
+    expect(@q.month).to   eql 9
+    expect(@q.day).to     eql 23
+  end
 end
