@@ -3,12 +3,6 @@ require 'spec_helper'
 require 'qreki'
 
 describe Qreki do
-  before do
-#    2013,11,1 # => 2013,false,9,28
-#    2014,11,1 # => 2014,true, 9,9
-#    2014,3,30 # => 2014,false,2,30
-  end
-
   it "should calc eql 2013,11,1 => 2013,false,9,28 赤口" do
     @q = Qreki.calc(2013,11,1)
     expect(@q.year).to    eql 2013
